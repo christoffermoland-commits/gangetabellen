@@ -20,7 +20,8 @@ export default function HomePage() {
     );
   }
 
-  const boss = bossTable(state.progress);
+  const stats = state.hardMode ? state.hard : state.normal;
+  const boss = bossTable(stats.progress);
   const selected = state.selectedTables;
   const dagStreak = currentDailyStreak(state.dailyStreak);
 
@@ -56,7 +57,7 @@ export default function HomePage() {
         </div>
         <div className="rounded-3xl bg-white/80 p-4 text-center shadow-sm">
           <div className="text-3xl">⭐</div>
-          <div className="text-2xl font-extrabold text-amber-500">{state.totalStars}</div>
+          <div className="text-2xl font-extrabold text-amber-500">{stats.totalStars}</div>
           <div className="text-xs font-semibold text-violet-400">stjerner</div>
         </div>
       </div>
@@ -75,7 +76,7 @@ export default function HomePage() {
           const c = TABLE_COLORS[t];
           const isSel = selected.includes(t);
           const isBoss = boss === t;
-          const pct = masteryPercent(state.progress[t]);
+          const pct = masteryPercent(stats.progress[t]);
           return (
             <button
               key={t}
@@ -97,7 +98,7 @@ export default function HomePage() {
               <span className="min-w-0 flex-1">
                 <span className="block text-sm font-bold leading-tight">{t}-gangen</span>
                 <span className={`text-xs ${isSel ? "text-white/90" : "text-violet-400"}`}>
-                  {state.progress[t].spurt > 0 ? `${pct}%` : "ny"}
+                  {stats.progress[t].spurt > 0 ? `${pct}%` : "ny"}
                 </span>
               </span>
               {isBoss && (
@@ -139,10 +140,10 @@ export default function HomePage() {
         </span>
       </button>
 
-      {state.lastResult && (
+      {stats.lastResult && (
         <p className="mb-3 text-center text-sm font-semibold text-violet-400">
-          Forrige runde: {state.lastResult.score} av {state.lastResult.total}. Klarer du å slå
-          den? 💪
+          Forrige {state.hardMode ? "Hard Mode-runde" : "runde"}: {stats.lastResult.score} av{" "}
+          {stats.lastResult.total}. Klarer du å slå den? 💪
         </p>
       )}
 

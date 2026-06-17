@@ -9,7 +9,7 @@ import { Question } from "@/lib/types";
 import { PageShell } from "@/components/ui";
 
 const SURPRISES = [
-  "🎉 Du er på FYR!",
+  "🎉 Du er on fire!",
   "🚀 Helt rå!",
   "🌈 Magisk!",
   "⚡️ Lynrask!",
@@ -31,7 +31,12 @@ export default function OvelsePage() {
       return;
     }
     // eslint-disable-next-line react-hooks/set-state-in-effect
-    setRound(buildRound(state.selectedTables, bossTable(state.progress)));
+    setRound(
+      buildRound(
+        state.selectedTables,
+        bossTable((state.hardMode ? state.hard : state.normal).progress),
+      ),
+    );
     // Bevisst kun ved hydrering – vi vil ikke bygge runden på nytt underveis.
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [hydrated]);

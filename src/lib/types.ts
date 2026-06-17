@@ -19,14 +19,24 @@ export interface RoundResult {
   total: number;
 }
 
-export interface AppState {
+export type GameMode = "normal" | "hard";
+
+/** Rekorder og fremgang som holdes adskilt per modus (vanlig vs Hard Mode). */
+export interface ModeStats {
   progress: Record<Tabell, TabellProgress>;
-  dailyStreak: DailyStreak;
   bestSessionStreak: number;
   totalStars: number;
-  badges: string[];
-  /** Forrige fullførte runde – brukes til «slå din egen rekord». */
+  /** Forrige fullførte runde i denne modusen – brukes til «slå din egen rekord». */
   lastResult: RoundResult | null;
+  badges: string[];
+}
+
+export interface AppState {
+  /** Statistikk per modus. */
+  normal: ModeStats;
+  hard: ModeStats;
+  /** Daglig øve-streak deles på tvers av modus (å øve teller uansett modus). */
+  dailyStreak: DailyStreak;
   /** Tabeller valgt på hjemskjermen sist. */
   selectedTables: Tabell[];
   /** Hard Mode: skriv svaret selv i stedet for å velge mellom alternativer. */
@@ -35,6 +45,7 @@ export interface AppState {
 
 /** Oppsummering av én runde, holdt i minnet mellom Øving → Resultat. */
 export interface RoundSummary {
+  mode: GameMode;
   score: number;
   total: number;
   bestStreakThisRound: number;

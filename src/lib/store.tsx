@@ -1,7 +1,7 @@
 "use client";
 
 import { createContext, useCallback, useContext, useEffect, useMemo, useState } from "react";
-import { AppState, RoundSummary, Tabell } from "./types";
+import { AppState, GameMode, ModeStats, RoundSummary, Tabell } from "./types";
 import { defaultState, loadState, saveState } from "./storage";
 import { updateDailyStreak } from "./streak";
 import { evaluateBadges } from "./badges";
@@ -58,9 +58,11 @@ export function StoreProvider({ children }: { children: React.ReactNode }) {
     (input: RoundInput): RoundSummary => {
     const prev = state;
     const today = dateKey();
+    const mode: GameMode = prev.hardMode ? "hard" : "normal";
+    const prevStats = prev[mode];
 
-    // Slå sammen progress per tabell.
-    const progress = { ...prev.progress };
+    // Slå sammen progress per tabell – innenfor aktiv modus.
+    const progress = { ...prevStats.progress };
     for (const key of Object.keys(input.perTable)) {
       const t = Number(key) as Tabell;
       const add = input.perTable[t];
@@ -72,24 +74,26 @@ export function StoreProvider({ children }: { children: React.ReactNode }) {
       };
     }
 
-    const previousResult = prev.lastResult;
-    const newRecord =
-      previousResult === null || input.score > previousResult.score;
+    const previousResult = prevStats.lastResult;
+    const newRecord = previousResult === null || input.score > previousResult.score;
 
-    const next: AppState = {
-      ...prev,
+    const dailyStreak = updateDailyStreak(prev.dailyStreak);
+    const nextStats: ModeStats = {
       progress,
-      dailyStreak: updateDailyStreak(prev.dailyStreak),
-      bestSessionStreak: Math.max(prev.bestSessionStreak, input.bestStreakThisRound),
-      totalStars: prev.totalStars + input.score,
+      bestSessionStreak: Math.max(prevStats.bestSessionStreak, input.bestStreakThisRound),
+      totalStars: prevStats.totalStars + input.score,
       lastResult: { date: today, score: input.score, total: input.total },
+      badges: prevStats.badges,
     };
 
-    const allBadges = evaluateBadges(next);
-    const earnedBadges = allBadges.filter((b) => !prev.badges.includes(b));
-    next.badges = allBadges;
+    const allBadges = evaluateBadges(nextStats, dailyStreak);
+    const earnedBadges = allBadges.filter((b) => !prevStats.badges.includes(b));
+    nextStats.badges = allBadges;
+
+    const next: AppState = { ...prev, [mode]: nextStats, dailyStreak };
 
     const summary: RoundSummary = {
+      mode,
       score: input.score,
       total: input.total,
       bestStreakThisRound: input.bestStreakThisRound,

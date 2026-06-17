@@ -1,13 +1,15 @@
 "use client";
 
+import { useState } from "react";
 import { useStore } from "@/lib/store";
-import { TABELLER } from "@/lib/types";
+import { DailyStreak, GameMode, ModeStats, TABELLER } from "@/lib/types";
 import { bossTable, isMastered, masteryPercent } from "@/lib/mastery";
-import { BADGES } from "@/lib/badges";
+import { BADGES, evaluateBadges } from "@/lib/badges";
 import { BackLink, PageShell, TABLE_COLORS } from "@/components/ui";
 
 export default function RekorderPage() {
   const { state, hydrated } = useStore();
+  const [tab, setTab] = useState<GameMode>("normal");
 
   if (!hydrated) {
     return (
@@ -18,24 +20,53 @@ export default function RekorderPage() {
     );
   }
 
-  const boss = bossTable(state.progress);
-  const earned = new Set(state.badges);
+  const stats = tab === "hard" ? state.hard : state.normal;
 
   return (
     <PageShell>
       <BackLink />
-      <h1 className="mb-6 text-center text-3xl font-extrabold text-violet-700">Mine rekorder 🏆</h1>
+      <h1 className="mb-5 text-center text-3xl font-extrabold text-violet-700">Mine rekorder 🏆</h1>
 
+      <div className="mb-6 grid grid-cols-2 gap-2 rounded-full bg-white/60 p-1">
+        <button
+          onClick={() => setTab("normal")}
+          className={`rounded-full py-2 text-sm font-bold transition ${
+            tab === "normal" ? "bg-violet-600 text-white shadow" : "text-violet-500"
+          }`}
+        >
+          Vanlig
+        </button>
+        <button
+          onClick={() => setTab("hard")}
+          className={`rounded-full py-2 text-sm font-bold transition ${
+            tab === "hard" ? "bg-violet-600 text-white shadow" : "text-violet-500"
+          }`}
+        >
+          💪 Hard Mode
+        </button>
+      </div>
+
+      <ModeSection stats={stats} dailyStreak={state.dailyStreak} />
+    </PageShell>
+  );
+}
+
+function ModeSection({ stats, dailyStreak }: { stats: ModeStats; dailyStreak: DailyStreak }) {
+  const boss = bossTable(stats.progress);
+  const earned = new Set(evaluateBadges(stats, dailyStreak));
+
+  return (
+    <>
       <div className="mb-6 rounded-3xl bg-white/80 p-5 text-center shadow-sm">
         <div className="text-3xl">🔥</div>
-        <div className="text-3xl font-extrabold text-orange-500">{state.bestSessionStreak}</div>
+        <div className="text-3xl font-extrabold text-orange-500">{stats.bestSessionStreak}</div>
         <div className="text-sm font-semibold text-violet-400">beste streak noensinne</div>
       </div>
 
       <h2 className="mb-3 text-lg font-bold text-violet-700">Mestringsgrad</h2>
       <div className="mb-6 flex flex-col gap-3">
         {TABELLER.map((t) => {
-          const p = state.progress[t];
+          const p = stats.progress[t];
           const pct = masteryPercent(p);
           const c = TABLE_COLORS[t];
           const mastered = isMastered(p);
@@ -92,6 +123,6 @@ export default function RekorderPage() {
           );
         })}
       </div>
-    </PageShell>
+    </>
   );
 }

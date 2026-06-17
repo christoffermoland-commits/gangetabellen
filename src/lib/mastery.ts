@@ -1,4 +1,4 @@
-import { AppState, Tabell, TABELLER, TabellProgress } from "./types";
+import { ModeStats, Tabell, TABELLER, TabellProgress } from "./types";
 
 /** Minste antall spørsmål før en tabell kan regnes som «mestret». */
 export const MASTERY_MIN_ATTEMPTS = 100;
@@ -38,6 +38,6 @@ export function bossTable(progress: Record<Tabell, TabellProgress>): Tabell | nu
   return boss;
 }
 
-export function masteredCount(state: AppState): number {
-  return TABELLER.filter((t) => isMastered(state.progress[t])).length;
+export function masteredCount(stats: ModeStats): number {
+  return TABELLER.filter((t) => isMastered(stats.progress[t])).length;
 }

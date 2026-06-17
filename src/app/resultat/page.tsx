@@ -42,6 +42,11 @@ export default function ResultatPage() {
   return (
     <PageShell>
       <div className="flex flex-1 flex-col items-center justify-center text-center">
+        {s.mode === "hard" && (
+          <div className="mb-2 rounded-full bg-violet-600 px-4 py-1 text-sm font-bold text-white">
+            💪 Hard Mode
+          </div>
+        )}
         <h1 className="text-3xl font-extrabold text-violet-700 animate-pop-in">{headline}</h1>
 
         {s.newRecord && (
