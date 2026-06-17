@@ -29,6 +29,8 @@ export interface AppState {
   lastResult: RoundResult | null;
   /** Tabeller valgt på hjemskjermen sist. */
   selectedTables: Tabell[];
+  /** Hard Mode: skriv svaret selv i stedet for å velge mellom alternativer. */
+  hardMode: boolean;
 }
 
 /** Oppsummering av én runde, holdt i minnet mellom Øving → Resultat. */

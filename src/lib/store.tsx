@@ -20,6 +20,7 @@ interface StoreContextValue {
   /** Oppsummering av sist fullførte runde (kun i minnet, til Resultat-skjermen). */
   lastRoundSummary: RoundSummary | null;
   setSelectedTables: (tables: Tabell[]) => void;
+  setHardMode: (on: boolean) => void;
   finishRound: (input: RoundInput) => RoundSummary;
   clearRoundSummary: () => void;
   resetAll: () => void;
@@ -47,6 +48,10 @@ export function StoreProvider({ children }: { children: React.ReactNode }) {
 
   const setSelectedTables = useCallback((tables: Tabell[]) => {
     setState((s) => ({ ...s, selectedTables: tables }));
+  }, []);
+
+  const setHardMode = useCallback((on: boolean) => {
+    setState((s) => ({ ...s, hardMode: on }));
   }, []);
 
   const finishRound = useCallback(
@@ -115,11 +120,21 @@ export function StoreProvider({ children }: { children: React.ReactNode }) {
       hydrated,
       lastRoundSummary,
       setSelectedTables,
+      setHardMode,
       finishRound,
       clearRoundSummary,
       resetAll,
     }),
-    [state, hydrated, lastRoundSummary, setSelectedTables, finishRound, clearRoundSummary, resetAll],
+    [
+      state,
+      hydrated,
+      lastRoundSummary,
+      setSelectedTables,
+      setHardMode,
+      finishRound,
+      clearRoundSummary,
+      resetAll,
+    ],
   );
 
   return <StoreContext.Provider value={value}>{children}</StoreContext.Provider>;

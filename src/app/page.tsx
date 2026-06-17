@@ -9,7 +9,7 @@ import { currentDailyStreak } from "@/lib/streak";
 import { PageShell, TABLE_COLORS } from "@/components/ui";
 
 export default function HomePage() {
-  const { state, hydrated, setSelectedTables } = useStore();
+  const { state, hydrated, setSelectedTables, setHardMode } = useStore();
   const router = useRouter();
 
   if (!hydrated) {
@@ -109,6 +109,35 @@ export default function HomePage() {
           );
         })}
       </div>
+
+      <button
+        onClick={() => setHardMode(!state.hardMode)}
+        role="switch"
+        aria-checked={state.hardMode}
+        className={`mb-6 flex items-center justify-between rounded-2xl border-4 p-4 text-left transition active:scale-[0.98] ${
+          state.hardMode
+            ? "border-white bg-violet-600 text-white shadow-md"
+            : "border-transparent bg-white/70 text-violet-700"
+        }`}
+      >
+        <span className="min-w-0">
+          <span className="block text-lg font-bold">💪 Hard Mode</span>
+          <span className={`text-sm ${state.hardMode ? "text-white/90" : "text-violet-400"}`}>
+            Skriv svaret selv – ingen alternativer
+          </span>
+        </span>
+        <span
+          className={`relative ml-3 h-8 w-14 shrink-0 rounded-full transition ${
+            state.hardMode ? "bg-white/40" : "bg-violet-200"
+          }`}
+        >
+          <span
+            className={`absolute top-1 h-6 w-6 rounded-full bg-white shadow transition-all ${
+              state.hardMode ? "left-7" : "left-1"
+            }`}
+          />
+        </span>
+      </button>
 
       {state.lastResult && (
         <p className="mb-3 text-center text-sm font-semibold text-violet-400">

@@ -18,6 +18,7 @@ export function defaultState(): AppState {
     badges: [],
     lastResult: null,
     selectedTables: [...TABELLER],
+    hardMode: false,
   };
 }
 
