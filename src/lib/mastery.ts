@@ -1,7 +1,7 @@
 import { AppState, Tabell, TABELLER, TabellProgress } from "./types";
 
 /** Minste antall spørsmål før en tabell kan regnes som «mestret». */
-export const MASTERY_MIN_ATTEMPTS = 12;
+export const MASTERY_MIN_ATTEMPTS = 100;
 export const MASTERY_THRESHOLD = 90; // prosent
 
 export function masteryPercent(p: TabellProgress): number {

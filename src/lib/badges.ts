@@ -22,8 +22,8 @@ export const BADGES: BadgeDef[] = [
     id: "perfekt-runde",
     emoji: "💯",
     label: "Perfekt runde",
-    description: "Alle 12 riktige i én runde",
-    earned: (s) => s.bestSessionStreak >= 12,
+    description: "Alle 25 riktige i én runde",
+    earned: (s) => s.bestSessionStreak >= 25,
   },
   {
     id: "streak-3",

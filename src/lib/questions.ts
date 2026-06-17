@@ -1,6 +1,6 @@
 import { Question, Tabell, TABELLER } from "./types";
 
-export const ROUND_LENGTH = 12;
+export const ROUND_LENGTH = 25;
 
 function randInt(min: number, max: number): number {
   return Math.floor(Math.random() * (max - min + 1)) + min;
