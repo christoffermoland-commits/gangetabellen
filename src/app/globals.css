@@ -1,26 +1,54 @@
 @import "tailwindcss";
 
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  --background: #f5f3ff;
+  --foreground: #1e1b4b;
 }
 
 @theme inline {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+  --font-sans: var(--font-baloo), system-ui, sans-serif;
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+html {
+  /* Hindrer at iOS auto-zoomer / dobbelttrykk-zoomer i spillet. */
+  -webkit-text-size-adjust: 100%;
+  touch-action: manipulation;
 }
 
 body {
-  background: var(--background);
   color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  font-family: var(--font-sans);
+  background:
+    radial-gradient(circle at 15% 0%, #ede9fe 0%, transparent 45%),
+    radial-gradient(circle at 85% 100%, #fce7f3 0%, transparent 45%),
+    var(--background);
+  background-attachment: fixed;
+  -webkit-tap-highlight-color: transparent;
 }
+
+/* Litt liv i feiringer. */
+@keyframes pop-in {
+  0% { transform: scale(0.6); opacity: 0; }
+  60% { transform: scale(1.1); opacity: 1; }
+  100% { transform: scale(1); }
+}
+@keyframes float-up {
+  0% { transform: translateY(0) scale(1); opacity: 1; }
+  100% { transform: translateY(-90px) scale(1.6); opacity: 0; }
+}
+@keyframes shake {
+  0%, 100% { transform: translateX(0); }
+  25% { transform: translateX(-6px); }
+  75% { transform: translateX(6px); }
+}
+@keyframes wiggle {
+  0%, 100% { transform: rotate(-3deg); }
+  50% { transform: rotate(3deg); }
+}
+
+.animate-pop-in { animation: pop-in 0.35s ease-out both; }
+.animate-float-up { animation: float-up 0.9s ease-out forwards; }
+.animate-shake { animation: shake 0.35s ease-in-out; }
+.animate-wiggle { animation: wiggle 0.6s ease-in-out infinite; }
