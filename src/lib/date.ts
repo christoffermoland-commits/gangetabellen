@@ -12,3 +12,16 @@ export function yesterdayKey(d: Date = new Date()): string {
   y.setDate(y.getDate() - 1);
   return dateKey(y);
 }
+
+/** Datonøkkel for mandagen i uka som inneholder gitt dato (norsk uke, man–søn). */
+export function startOfWeekKey(d: Date = new Date()): string {
+  const m = new Date(d);
+  const day = (m.getDay() + 6) % 7; // man=0 … søn=6
+  m.setDate(m.getDate() - day);
+  return dateKey(m);
+}
+
+/** "YYYY-MM" for måneden til gitt dato. */
+export function monthKey(d: Date = new Date()): string {
+  return dateKey(d).slice(0, 7);
+}

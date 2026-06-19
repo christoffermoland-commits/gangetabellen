@@ -90,7 +90,12 @@ export function StoreProvider({ children }: { children: React.ReactNode }) {
     const earnedBadges = allBadges.filter((b) => !prevStats.badges.includes(b));
     nextStats.badges = allBadges;
 
-    const next: AppState = { ...prev, [mode]: nextStats, dailyStreak };
+    const next: AppState = {
+      ...prev,
+      [mode]: nextStats,
+      dailyStreak,
+      sessions: [...prev.sessions, { date: today, mode }],
+    };
 
     const summary: RoundSummary = {
       mode,

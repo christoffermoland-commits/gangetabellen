@@ -19,6 +19,12 @@ export interface RoundResult {
   total: number;
 }
 
+/** Logg over hver fullførte øvingsrunde – grunnlag for statistikk over tid. */
+export interface SessionEntry {
+  date: string; // "YYYY-MM-DD"
+  mode: GameMode;
+}
+
 export type GameMode = "normal" | "hard";
 
 /** Rekorder og fremgang som holdes adskilt per modus (vanlig vs Hard Mode). */
@@ -37,6 +43,8 @@ export interface AppState {
   hard: ModeStats;
   /** Daglig øve-streak deles på tvers av modus (å øve teller uansett modus). */
   dailyStreak: DailyStreak;
+  /** Logg over alle fullførte runder, brukt av statistikk-siden. */
+  sessions: SessionEntry[];
   /** Tabeller valgt på hjemskjermen sist. */
   selectedTables: Tabell[];
   /** Hard Mode: skriv svaret selv i stedet for å velge mellom alternativer. */

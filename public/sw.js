@@ -1,8 +1,8 @@
 // Enkel service worker for Gangetabellen.
 // - Navigasjoner: network-first med cache-fallback (offline etter første besøk).
 // - Statiske ressurser: stale-while-revalidate.
-const CACHE = "gangetabellen-v1";
-const APP_SHELL = ["/", "/ovelse", "/resultat", "/rekorder", "/manifest.json"];
+const CACHE = "gangetabellen-v2";
+const APP_SHELL = ["/", "/ovelse", "/resultat", "/rekorder", "/statistikk", "/manifest.json"];
 
 self.addEventListener("install", (event) => {
   event.waitUntil(

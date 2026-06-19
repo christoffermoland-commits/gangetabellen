@@ -155,12 +155,20 @@ export default function HomePage() {
         Start øving 🚀
       </button>
 
-      <Link
-        href="/rekorder"
-        className="rounded-full bg-white/70 py-4 text-center text-lg font-bold text-violet-700 shadow-sm active:scale-95"
-      >
-        🏆 Mine rekorder
-      </Link>
+      <div className="grid grid-cols-2 gap-3">
+        <Link
+          href="/rekorder"
+          className="rounded-full bg-white/70 py-4 text-center text-base font-bold text-violet-700 shadow-sm active:scale-95"
+        >
+          🏆 Rekorder
+        </Link>
+        <Link
+          href="/statistikk"
+          className="rounded-full bg-white/70 py-4 text-center text-base font-bold text-violet-700 shadow-sm active:scale-95"
+        >
+          📊 Statistikk
+        </Link>
+      </div>
     </PageShell>
   );
 }

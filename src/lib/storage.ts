@@ -24,6 +24,7 @@ export function defaultState(): AppState {
     normal: emptyModeStats(),
     hard: emptyModeStats(),
     dailyStreak: { sisteOvingsdato: null, antallDagerIRad: 0 },
+    sessions: [],
     selectedTables: [...TABELLER],
     hardMode: false,
   };
@@ -72,6 +73,7 @@ function merge(stored: LegacyState): AppState {
     normal,
     hard: mergeMode(stored.hard),
     dailyStreak: { ...base.dailyStreak, ...stored.dailyStreak },
+    sessions: Array.isArray(stored.sessions) ? stored.sessions : base.sessions,
     hardMode: stored.hardMode ?? base.hardMode,
     selectedTables:
       stored.selectedTables && stored.selectedTables.length > 0
