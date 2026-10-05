@@ -169,6 +169,18 @@ export default function HomePage() {
           📊 Statistikk
         </Link>
       </div>
+
+      <p className="mt-6 text-center text-xs text-violet-400">
+        Laget av{" "}
+        <a
+          href="https://molanddigital.no"
+          target="_blank"
+          rel="noopener"
+          className="underline underline-offset-2"
+        >
+          Moland Digital
+        </a>
+      </p>
     </PageShell>
   );
 }
